@@ -131,6 +131,48 @@ const triggers: TriggerDefinition[] = [
     departments: ["GRAPHICS", "AUDIO"] },
   { id: "t-lightsreset", name: "Lights Reset", section: "STAGE", family: "AUTOMATION", protected: false,
     departments: ["LIGHTING"] },
+
+  // ── AUTOMATION-ONLY CUES (no manual button; live on /automation-triggers) ──
+  {
+    id: "auto-half-end", name: "Auto: Half End → Replay Pkg", section: "MATCH_FLOW",
+    family: "AUTOMATION", protected: false, departments: ["GRAPHICS", "REPLAY", "AUDIO"],
+    enabled: true, visible: true, automationArmed: true,
+    sources: { manual: false, timer: false, gameApi: true, state: false },
+    linkedEventKey: "cs2.round.halftime", matchPhaseBinding: "LIVE", teamBinding: "ANY",
+    outputEventKey: "show.replay.halfend", lastFiredAt: now() - 1_800_000,
+  },
+  {
+    id: "auto-break-return", name: "Auto: Break Timer → Return Sting", section: "BROADCAST_FLOW",
+    family: "TIMER_COMPLETE", protected: false, departments: ["AUDIO", "LED", "LIGHTING", "GRAPHICS"],
+    enabled: true, visible: true, automationArmed: true,
+    sources: { manual: false, timer: true, gameApi: false, state: false },
+    linkedTimerId: "tm-break", matchPhaseBinding: "BREAK", teamBinding: "ANY",
+    outputEventKey: "show.break.return", setShowState: "phase=PRE_GAME",
+  },
+  {
+    id: "auto-tac-call", name: "Auto: Tac Timeout Detected", section: "TIMEOUTS",
+    family: "TIMEOUT", protected: false, departments: ["GRAPHICS", "TIMING", "AUDIO"],
+    enabled: true, visible: true, automationArmed: false,
+    sources: { manual: false, timer: false, gameApi: true, state: false },
+    linkedEventKey: "cs2.timeout.called", matchPhaseBinding: "LIVE", teamBinding: "ANY",
+    outputEventKey: "show.timeout.start", setShowState: "phase=TACTICAL_TIMEOUT",
+  },
+  {
+    id: "auto-matchpoint", name: "Auto: Match Point Detected", section: "COMPETITIVE",
+    family: "AUTOMATION", protected: false, departments: ["GRAPHICS", "AUDIO", "LED"],
+    enabled: true, visible: true, automationArmed: true,
+    sources: { manual: false, timer: false, gameApi: true, state: true },
+    linkedEventKey: "cs2.score.matchpoint", matchPhaseBinding: "LIVE", teamBinding: "ANY",
+    outputEventKey: "show.gfx.matchpoint",
+  },
+  {
+    id: "auto-postmap-state", name: "Auto: Post-Map State Sync", section: "MATCH_FLOW",
+    family: "MAP_WIN", protected: false, departments: ["GRAPHICS", "TIMING", "COMPANION"],
+    enabled: false, visible: true, automationArmed: false,
+    sources: { manual: false, timer: false, gameApi: false, state: true },
+    linkedEventKey: "show.phase=POST_MAP", matchPhaseBinding: "POST_MAP", teamBinding: "ANY",
+    outputEventKey: "show.postmap.sync", setShowState: "scoreboard=lock",
+  },
 ];
 
 const timers: TimerState[] = [
