@@ -1,3 +1,6 @@
+import { Pause, Play, RotateCcw } from "lucide-react";
+
+import { broadcastApi } from "@/lib/broadcast/store";
 import type { TimerState } from "@/lib/broadcast/types";
 
 function fmt(ms: number) {
@@ -6,6 +9,13 @@ function fmt(ms: number) {
   const s = total % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
+
+const TIME_ADJUSTMENTS = [
+  { label: "+20s", deltaMs: 20_000 },
+  { label: "-20s", deltaMs: -20_000 },
+  { label: "+1m", deltaMs: 60_000 },
+  { label: "-1m", deltaMs: -60_000 },
+] as const;
 
 export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
   return (
@@ -51,6 +61,38 @@ export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
                 {t.linkedTriggerId && (
                   <span className="text-accent uppercase tracking-wider">linked → cue</span>
                 )}
+              </div>
+
+              {/* Timer controls */}
+              <div className="mt-1.5 flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => broadcastApi.playPauseTimer(t.id)}
+                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+                  title={t.running ? "Pause" : "Play"}
+                >
+                  {t.running ? <Pause size={12} /> : <Play size={12} />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => broadcastApi.resetTimer(t.id)}
+                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+                  title="Reset to 0"
+                >
+                  <RotateCcw size={12} />
+                </button>
+                <div className="w-px h-3 bg-panel-edge mx-0.5" />
+                {TIME_ADJUSTMENTS.map((btn) => (
+                  <button
+                    key={btn.label}
+                    type="button"
+                    onClick={() => broadcastApi.adjustTimer(t.id, btn.deltaMs)}
+                    className="h-5 px-1.5 rounded-sm bg-panel border border-panel-edge text-[10px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
+                    title={btn.label}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
               </div>
             </div>
           );
