@@ -235,16 +235,15 @@ export const broadcastApi = {
   createTrigger(partial: Partial<import("./types").TriggerDefinition>): import("./types").TriggerDefinition {
     const id = partial.id ?? `t-${Math.random().toString(36).slice(2, 9)}`;
     const next: import("./types").TriggerDefinition = {
-      id,
-      name: partial.name ?? "New Cue",
-      section: partial.section ?? "BROADCAST_FLOW",
-      family: partial.family ?? "AUTOMATION",
-      protected: partial.protected ?? false,
-      departments: partial.departments ?? [],
-      enabled: partial.enabled ?? true,
-      visible: partial.visible ?? true,
-      automationArmed: partial.automationArmed ?? true,
-      sources: partial.sources ?? { manual: false, timer: false, gameApi: true, state: false },
+      name: "New Cue",
+      section: "BROADCAST_FLOW",
+      family: "AUTOMATION",
+      protected: false,
+      departments: [],
+      enabled: true,
+      visible: true,
+      automationArmed: true,
+      sources: { manual: false, timer: false, gameApi: true, state: false },
       ...partial,
       id,
     };
