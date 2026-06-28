@@ -64,35 +64,38 @@ export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
               </div>
 
               {/* Timer controls */}
-              <div className="mt-1.5 flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => broadcastApi.playPauseTimer(t.id)}
-                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-                  title={t.running ? "Pause" : "Play"}
-                >
-                  {t.running ? <Pause size={12} /> : <Play size={12} />}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => broadcastApi.resetTimer(t.id)}
-                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-                  title="Reset to 0"
-                >
-                  <RotateCcw size={12} />
-                </button>
-                <div className="w-px h-3 bg-panel-edge mx-0.5" />
-                {TIME_ADJUSTMENTS.map((btn) => (
+              <div className="mt-1.5 grid grid-cols-[auto_1fr] gap-1">
+                <div className="flex flex-col gap-1">
                   <button
-                    key={btn.label}
                     type="button"
-                    onClick={() => broadcastApi.adjustTimer(t.id, btn.deltaMs)}
-                    className="h-5 px-1.5 rounded-sm bg-panel border border-panel-edge text-[10px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
-                    title={btn.label}
+                    onClick={() => broadcastApi.playPauseTimer(t.id)}
+                    className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+                    title={t.running ? "Pause" : "Play"}
                   >
-                    {btn.label}
+                    {t.running ? <Pause size={12} /> : <Play size={12} />}
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    onClick={() => broadcastApi.resetTimer(t.id)}
+                    className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+                    title="Reset to 0"
+                  >
+                    <RotateCcw size={12} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 gap-1">
+                  {TIME_ADJUSTMENTS.map((btn) => (
+                    <button
+                      key={btn.label}
+                      type="button"
+                      onClick={() => broadcastApi.adjustTimer(t.id, btn.deltaMs)}
+                      className="h-5 w-full px-0.5 rounded-sm bg-panel border border-panel-edge text-[10px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular flex items-center justify-center"
+                      title={btn.label}
+                    >
+                      {btn.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           );
