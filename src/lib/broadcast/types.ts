@@ -105,6 +105,7 @@ export interface TriggerDefinition {
   protected: boolean; // requires hold-to-fire AND armed family
   departments: DepartmentId[];
   lastFiredAt?: number;
+  hasTimerControls?: boolean; // renders an inline timer control strip on the cue card
 }
 
 export interface OutputRouteStatus {
