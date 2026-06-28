@@ -172,6 +172,7 @@ export function TriggerGrid({
                     onDragStart={() => onTriggerDragStart(sectionId, t.id)}
                     onDragOver={(e) => onTriggerDragOver(sectionId, t.id, e)}
                     onDragEnd={endDrag}
+                    onEdit={() => setEditing(t)}
                   />
                 ))}
               </div>
@@ -179,6 +180,11 @@ export function TriggerGrid({
           );
         })}
       </div>
+      <CueSettingsDialog
+        trigger={editing}
+        open={!!editing}
+        onOpenChange={(o) => !o && setEditing(null)}
+      />
     </section>
   );
 }
