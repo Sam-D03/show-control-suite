@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TimingsRouteImport } from './routes/timings'
 import { Route as EngineeringRouteImport } from './routes/engineering'
 import { Route as AutomationTriggersRouteImport } from './routes/automation-triggers'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TimingsRoute = TimingsRouteImport.update({
+  id: '/timings',
+  path: '/timings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EngineeringRoute = EngineeringRouteImport.update({
   id: '/engineering',
   path: '/engineering',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
+  '/timings': typeof TimingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
+  '/timings': typeof TimingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
+  '/timings': typeof TimingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/automation-triggers' | '/engineering'
+  fullPaths: '/' | '/automation-triggers' | '/engineering' | '/timings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/automation-triggers' | '/engineering'
-  id: '__root__' | '/' | '/automation-triggers' | '/engineering'
+  to: '/' | '/automation-triggers' | '/engineering' | '/timings'
+  id: '__root__' | '/' | '/automation-triggers' | '/engineering' | '/timings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutomationTriggersRoute: typeof AutomationTriggersRoute
   EngineeringRoute: typeof EngineeringRoute
+  TimingsRoute: typeof TimingsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/timings': {
+      id: '/timings'
+      path: '/timings'
+      fullPath: '/timings'
+      preLoaderRoute: typeof TimingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/engineering': {
       id: '/engineering'
       path: '/engineering'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutomationTriggersRoute: AutomationTriggersRoute,
   EngineeringRoute: EngineeringRoute,
+  TimingsRoute: TimingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
