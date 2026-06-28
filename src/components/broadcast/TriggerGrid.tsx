@@ -352,7 +352,7 @@ function TriggerCard({
           />
         )}
 
-        <div className="flex items-start justify-between gap-1 pr-5">
+        <div className="flex items-start justify-between gap-1 pr-12">
           <span className="text-[13px] font-semibold leading-tight truncate">
             {trigger.name}
           </span>
