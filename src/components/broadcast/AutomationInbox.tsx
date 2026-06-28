@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ChevronDown, ChevronRight, Eye } from "lucide-react";
 
 import type { AutomationSignal, EventFamilyArm } from "@/lib/broadcast/types";
@@ -14,19 +13,23 @@ export function AutomationInbox({
   signals,
   arms,
   disabled,
+  collapsed,
+  onToggleCollapsed,
 }: {
   signals: AutomationSignal[];
   arms: EventFamilyArm[];
   disabled: boolean;
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
 }) {
-  const [collapsed, setCollapsed] = useState(false);
   const pending = signals.filter((s) => s.status === "PENDING");
+
   return (
     <section className="bg-panel border border-panel-edge rounded-sm flex flex-col min-h-0">
       <header className="flex items-center justify-between px-3 h-9 border-b border-panel-edge shrink-0">
         <button
           type="button"
-          onClick={() => setCollapsed((c) => !c)}
+          onClick={onToggleCollapsed}
           className="flex items-center gap-2 -mx-1 px-1 py-0.5 rounded-sm hover:bg-panel-elev"
           aria-expanded={!collapsed}
           aria-label={collapsed ? "Expand automation inbox" : "Collapse automation inbox"}

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { ArmStrip } from "@/components/broadcast/ArmStrip";
 import { AutomationInbox } from "@/components/broadcast/AutomationInbox";
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/")({
 
 function AdControlScreen() {
   const state = useShowState();
+  const [inboxCollapsed, setInboxCollapsed] = useState(false);
 
   return (
     <div className="h-screen w-screen flex flex-col bg-background text-foreground overflow-hidden">
@@ -44,14 +46,16 @@ function AdControlScreen() {
             </div>
 
             <aside className="w-[360px] shrink-0 flex flex-col gap-2 p-2 bg-background min-h-0 overflow-hidden">
-              <div className="shrink-0">
+              <div className={inboxCollapsed ? "flex-1 min-h-0 flex flex-col" : "shrink-0"}>
                 <TimerMiniPanel timers={state.timers} />
               </div>
-              <div className="flex-1 min-h-0 flex flex-col">
+              <div className={inboxCollapsed ? "shrink-0" : "flex-1 min-h-0 flex flex-col"}>
                 <AutomationInbox
                   signals={state.automation}
                   arms={state.arms}
                   disabled={state.disableAutomations}
+                  collapsed={inboxCollapsed}
+                  onToggleCollapsed={() => setInboxCollapsed((c) => !c)}
                 />
               </div>
             </aside>
