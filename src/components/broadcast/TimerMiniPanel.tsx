@@ -67,10 +67,7 @@ export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
               <div className="mt-1.5 flex items-center gap-1">
                 <button
                   type="button"
-                  onClick={() => {
-                    console.log("playPause", t.id);
-                    broadcastApi.playPauseTimer(t.id);
-                  }}
+                  onClick={() => broadcastApi.playPauseTimer(t.id)}
                   className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
                   title={t.running ? "Pause" : "Play"}
                 >
@@ -78,10 +75,7 @@ export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    console.log("reset", t.id);
-                    broadcastApi.resetTimer(t.id);
-                  }}
+                  onClick={() => broadcastApi.resetTimer(t.id)}
                   className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
                   title="Reset to 0"
                 >
