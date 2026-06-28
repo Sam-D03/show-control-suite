@@ -281,7 +281,7 @@ function TriggerCard({
       ref={cardRef}
       onDragOver={onDragOver}
       onDrop={onDragEnd}
-      className={`relative overflow-hidden ${trigger.hasTimerControls ? "h-[132px]" : "h-[92px]"} rounded-sm border flex flex-col transition-colors select-none ${baseTone} ${
+      className={`relative overflow-hidden h-[92px] rounded-sm border flex flex-col transition-colors select-none ${baseTone} ${
         locked ? "cursor-not-allowed" : ""
       } ${isDragging ? "opacity-40" : ""} ${flash ? "fire-flash" : ""}`}
 
