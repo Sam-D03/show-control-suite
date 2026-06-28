@@ -363,10 +363,11 @@ function TriggerCard({
               <div
                 role="button"
                 tabIndex={0}
-                title="Play/Pause"
+                title={tcPlaying ? "Pause" : "Play"}
+                onClick={() => setTcPlaying((p) => !p)}
                 className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
               >
-                <Play size={11} />
+                {tcPlaying ? <Pause size={11} /> : <Play size={11} />}
               </div>
               <div
                 role="button"
