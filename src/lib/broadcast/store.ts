@@ -156,6 +156,59 @@ export const broadcastApi = {
     });
   },
 
+  playPauseTimer(timerId: string) {
+    const t = state.timers.find((tm) => tm.id === timerId);
+    if (!t) return;
+    const running = !t.running;
+    setState((s) => ({
+      ...s,
+      timers: s.timers.map((tm) => (tm.id === timerId ? { ...tm, running } : tm)),
+    }));
+    pushLog({
+      kind: "TIMER_CONTROLLED",
+      message: `${t.label} ${running ? "started" : "paused"}`,
+      source: state.operator,
+      severity: "INFO",
+    });
+  },
+
+  resetTimer(timerId: string) {
+    const t = state.timers.find((tm) => tm.id === timerId);
+    if (!t) return;
+    setState((s) => ({
+      ...s,
+      timers: s.timers.map((tm) =>
+        tm.id === timerId ? { ...tm, remainingMs: 0, running: false } : tm,
+      ),
+    }));
+    pushLog({
+      kind: "TIMER_CONTROLLED",
+      message: `${t.label} reset to 00:00`,
+      source: state.operator,
+      severity: "INFO",
+    });
+  },
+
+  adjustTimer(timerId: string, deltaMs: number) {
+    const t = state.timers.find((tm) => tm.id === timerId);
+    if (!t) return;
+    const remainingMs = Math.max(0, Math.min(t.totalMs, t.remainingMs + deltaMs));
+    setState((s) => ({
+      ...s,
+      timers: s.timers.map((tm) =>
+        tm.id === timerId ? { ...tm, remainingMs } : tm,
+      ),
+    }));
+    const sign = deltaMs >= 0 ? "+" : "";
+    const secs = Math.round(deltaMs / 1000);
+    pushLog({
+      kind: "TIMER_CONTROLLED",
+      message: `${t.label} ${sign}${secs}s`,
+      source: state.operator,
+      severity: "INFO",
+    });
+  },
+
   injectAutomationSignal(signal: AutomationSignal) {
     setState((s) => ({ ...s, automation: [signal, ...s.automation] }));
     pushLog({
