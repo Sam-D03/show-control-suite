@@ -141,6 +141,7 @@ export interface EventLogEntry {
     | "AUTOMATION_APPROVED"
     | "AUTOMATION_DISMISSED"
     | "STATE_CHANGED"
+    | "TIMER_CONTROLLED"
     | "OUTPUT_FAIL"
     | "SAFETY";
   message: string;
