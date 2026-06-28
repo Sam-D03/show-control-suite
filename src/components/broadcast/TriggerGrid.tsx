@@ -356,43 +356,39 @@ function TriggerCard({
           <div
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
-            className="mt-auto flex items-center gap-1"
+            className="mt-auto grid grid-cols-2 gap-1"
           >
-            <span className="font-mono tabular text-[12px] text-foreground leading-none mr-0.5">
-              00:30
-            </span>
-            <button
-              type="button"
-              title="Play"
-              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-            >
-              <Play size={11} />
-            </button>
-            <button
-              type="button"
-              title="Pause"
-              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-            >
-              <Pause size={11} />
-            </button>
-            <button
-              type="button"
-              title="Reset to 0"
-              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-            >
-              <RotateCcw size={11} />
-            </button>
-            <div className="w-px h-3 bg-panel-edge mx-0.5" />
-            {["+20s", "-20s", "+1m", "-1m"].map((label) => (
-              <button
-                key={label}
-                type="button"
-                title={label}
-                className="h-5 px-1 rounded-sm bg-panel border border-panel-edge text-[9px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
+            <div className="flex flex-col gap-1">
+              <div
+                role="button"
+                tabIndex={0}
+                title="Play/Pause"
+                className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
               >
-                {label}
-              </button>
-            ))}
+                <Play size={11} />
+              </div>
+              <div
+                role="button"
+                tabIndex={0}
+                title="Reset to 0"
+                className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
+              >
+                <RotateCcw size={11} />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-1">
+              {["+20s", "-20s", "+1m", "-1m"].map((label) => (
+                <div
+                  key={label}
+                  role="button"
+                  tabIndex={0}
+                  title={label}
+                  className="h-5 w-full px-0.5 rounded-sm bg-panel border border-panel-edge text-[9px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular flex items-center justify-center cursor-pointer"
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="mt-auto flex items-end justify-between gap-2">
