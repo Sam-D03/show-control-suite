@@ -29,7 +29,7 @@ export function AutomationInbox({
       <header className="flex items-center justify-between px-3 h-9 border-b border-panel-edge shrink-0">
         <button
           type="button"
-          onClick={() => setCollapsed((c) => !c)}
+          onClick={onToggleCollapsed}
           className="flex items-center gap-2 -mx-1 px-1 py-0.5 rounded-sm hover:bg-panel-elev"
           aria-expanded={!collapsed}
           aria-label={collapsed ? "Expand automation inbox" : "Collapse automation inbox"}
