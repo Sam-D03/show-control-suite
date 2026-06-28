@@ -283,7 +283,8 @@ function TriggerCard({
       onDrop={onDragEnd}
       className={`relative overflow-hidden h-[92px] rounded-sm border flex flex-col transition-colors select-none ${baseTone} ${
         locked ? "cursor-not-allowed" : ""
-      } ${isDragging ? "opacity-40" : ""}`}
+      } ${isDragging ? "opacity-40" : ""} ${flash ? "fire-flash" : ""}`}
+
     >
       {/* drag handle */}
       <button
