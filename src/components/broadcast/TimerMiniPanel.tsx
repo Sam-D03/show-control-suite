@@ -16,7 +16,7 @@ export function TimerMiniPanel({ timers }: { timers: TimerState[] }) {
         </span>
         <span className="text-[10px] text-muted-foreground tabular">{timers.length}</span>
       </header>
-      <div className="p-2 grid grid-cols-1 gap-2">
+      <div className="p-2 grid grid-cols-1 gap-2 flex-1 overflow-auto content-start">
         {timers.map((t) => {
           const pct = Math.max(0, Math.min(100, (t.remainingMs / t.totalMs) * 100));
           const low = t.remainingMs < 30_000 && t.running;
