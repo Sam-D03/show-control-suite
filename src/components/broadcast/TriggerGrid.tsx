@@ -303,22 +303,37 @@ function TriggerCard({
       } ${isDragging ? "opacity-40" : ""} ${flash ? "fire-flash" : ""}`}
 
     >
-      {/* drag handle */}
-      <button
-        type="button"
-        draggable
-        onDragStart={(e) => {
-          e.stopPropagation();
-          onDragStart();
-        }}
-        onDragEnd={onDragEnd}
-        onPointerDown={(e) => e.stopPropagation()}
-        title="Drag to reorder"
-        aria-label={`Reorder ${trigger.name}`}
-        className="absolute top-1 right-1 z-10 p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60 cursor-grab active:cursor-grabbing"
-      >
-        <GripVertical className="h-3 w-3" />
-      </button>
+      {/* settings + drag handle */}
+      <div className="absolute top-1 right-1 z-10 flex gap-0.5">
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          title="Cue settings"
+          aria-label={`Settings for ${trigger.name}`}
+          className="p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60"
+        >
+          <Settings2 className="h-3 w-3" />
+        </button>
+        <button
+          type="button"
+          draggable
+          onDragStart={(e) => {
+            e.stopPropagation();
+            onDragStart();
+          }}
+          onDragEnd={onDragEnd}
+          onPointerDown={(e) => e.stopPropagation()}
+          title="Drag to reorder"
+          aria-label={`Reorder ${trigger.name}`}
+          className="p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60 cursor-grab active:cursor-grabbing"
+        >
+          <GripVertical className="h-3 w-3" />
+        </button>
+      </div>
 
       <button
         type="button"
