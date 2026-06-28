@@ -281,7 +281,7 @@ function TriggerCard({
       ref={cardRef}
       onDragOver={onDragOver}
       onDrop={onDragEnd}
-      className={`relative overflow-hidden ${trigger.hasTimerControls ? "h-[132px]" : "h-[92px]"} rounded-sm border flex flex-col transition-colors select-none ${baseTone} ${
+      className={`relative overflow-hidden h-[92px] rounded-sm border flex flex-col transition-colors select-none ${baseTone} ${
         locked ? "cursor-not-allowed" : ""
       } ${isDragging ? "opacity-40" : ""} ${flash ? "fire-flash" : ""}`}
 
@@ -352,70 +352,70 @@ function TriggerCard({
           )}
         </div>
 
-        <div className="mt-auto flex items-end justify-between gap-2">
-          <div className="flex flex-wrap gap-1">
-            {trigger.departments.map((d) => (
-              <span
-                key={d}
-                className="text-[9px] font-mono tabular px-1 py-[1px] rounded-sm bg-background/60 border border-panel-edge text-foreground/75"
-                title={d}
+        {trigger.hasTimerControls ? (
+          <div
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-auto flex items-center gap-1"
+          >
+            <span className="font-mono tabular text-[12px] text-foreground leading-none mr-0.5">
+              00:30
+            </span>
+            <button
+              type="button"
+              title="Play"
+              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+            >
+              <Play size={11} />
+            </button>
+            <button
+              type="button"
+              title="Pause"
+              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+            >
+              <Pause size={11} />
+            </button>
+            <button
+              type="button"
+              title="Reset to 0"
+              className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+            >
+              <RotateCcw size={11} />
+            </button>
+            <div className="w-px h-3 bg-panel-edge mx-0.5" />
+            {["+20s", "-20s", "+1m", "-1m"].map((label) => (
+              <button
+                key={label}
+                type="button"
+                title={label}
+                className="h-5 px-1 rounded-sm bg-panel border border-panel-edge text-[9px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
               >
-                {DEPT_LABEL[d]}
-              </span>
+                {label}
+              </button>
             ))}
           </div>
-          <span
-            key={tick}
-            className="text-[9px] text-muted-foreground tabular shrink-0"
-          >
-            {fmtSince(trigger.lastFiredAt)}
-          </span>
-        </div>
-      </button>
-
-      {trigger.hasTimerControls && (
-        <div
-          onPointerDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-          className="absolute left-0 right-0 bottom-0 z-10 px-2 py-1.5 border-t border-panel-edge bg-panel/95 backdrop-blur-sm flex items-center gap-1"
-        >
-          <span className="font-mono tabular text-[13px] text-foreground leading-none mr-1">
-            00:30
-          </span>
-          <button
-            type="button"
-            title="Play"
-            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-          >
-            <Play size={12} />
-          </button>
-          <button
-            type="button"
-            title="Pause"
-            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-          >
-            <Pause size={12} />
-          </button>
-          <button
-            type="button"
-            title="Reset to 0"
-            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
-          >
-            <RotateCcw size={12} />
-          </button>
-          <div className="w-px h-3 bg-panel-edge mx-0.5" />
-          {["+20s", "-20s", "+1m", "-1m"].map((label) => (
-            <button
-              key={label}
-              type="button"
-              title={label}
-              className="h-5 px-1.5 rounded-sm bg-panel-elev border border-panel-edge text-[10px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
+        ) : (
+          <div className="mt-auto flex items-end justify-between gap-2">
+            <div className="flex flex-wrap gap-1">
+              {trigger.departments.map((d) => (
+                <span
+                  key={d}
+                  className="text-[9px] font-mono tabular px-1 py-[1px] rounded-sm bg-background/60 border border-panel-edge text-foreground/75"
+                  title={d}
+                >
+                  {DEPT_LABEL[d]}
+                </span>
+              ))}
+            </div>
+            <span
+              key={tick}
+              className="text-[9px] text-muted-foreground tabular shrink-0"
             >
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
+              {fmtSince(trigger.lastFiredAt)}
+            </span>
+          </div>
+        )}
+      </button>
     </div>
   );
 }
