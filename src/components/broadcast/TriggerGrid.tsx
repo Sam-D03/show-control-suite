@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { GripVertical, Lock, Pause, Play, RotateCcw, Unlock, Zap } from "lucide-react";
+import { GripVertical, Lock, Pause, Play, RotateCcw, Settings2, Unlock, Zap } from "lucide-react";
 
+import { CueSettingsDialog } from "@/components/broadcast/CueSettingsDialog";
 import { broadcastApi } from "@/lib/broadcast/store";
 import type {
   DepartmentId,
