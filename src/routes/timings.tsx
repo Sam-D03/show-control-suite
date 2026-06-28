@@ -303,6 +303,11 @@ function TimingsScreen() {
         <span className="text-foreground tabular text-base font-bold">{fmtTod(now)}</span>
       </header>
 
+      {/* Current match header */}
+      {state.match && <CurrentMatchPanel match={state.match} />}
+
+
+
       {/* Main area */}
       <main className="flex-1 min-h-0 p-3">
         {count === 0 ? (
