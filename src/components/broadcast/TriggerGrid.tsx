@@ -371,30 +371,32 @@ function TriggerCard({
                 {tcPlaying ? "RUN" : "HOLD"}
               </span>
             </div>
-            <div className="h-1 w-full bg-background rounded-sm overflow-hidden">
-              <div
-                className={`h-full ${tcPlaying ? "bg-accent" : "bg-muted-foreground/50"}`}
-                style={{ width: "50%" }}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-1">
-              <div className="flex flex-col gap-1">
-                <div
-                  role="button"
-                  tabIndex={0}
-                  title={tcPlaying ? "Pause" : "Play"}
-                  onClick={() => setTcPlaying((p) => !p)}
-                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
-                >
-                  {tcPlaying ? <Pause size={11} /> : <Play size={11} />}
+            <div className="flex gap-1">
+              <div className="flex-1 flex flex-col gap-1">
+                <div className="h-1 w-1/2 bg-background rounded-sm overflow-hidden">
+                  <div
+                    className={`h-full ${tcPlaying ? "bg-accent" : "bg-muted-foreground/50"}`}
+                    style={{ width: "50%" }}
+                  />
                 </div>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  title="Reset to 0"
-                  className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
-                >
-                  <RotateCcw size={11} />
+                <div className="flex gap-1">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    title={tcPlaying ? "Pause" : "Play"}
+                    onClick={() => setTcPlaying((p) => !p)}
+                    className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
+                  >
+                    {tcPlaying ? <Pause size={11} /> : <Play size={11} />}
+                  </div>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    title="Reset to 0"
+                    className="h-5 w-5 rounded-sm bg-panel border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center cursor-pointer"
+                  >
+                    <RotateCcw size={11} />
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-1">
