@@ -117,6 +117,8 @@ const triggers: TriggerDefinition[] = [
     departments: ["GRAPHICS", "AUDIO", "TIMING", "LED"] },
   { id: "t-return", name: "Return From Break", section: "BROADCAST_FLOW", family: "TIMER_COMPLETE", protected: true,
     departments: ["GRAPHICS", "AUDIO", "TIMING", "LED", "LIGHTING"] },
+  { id: "t-timer-controls", name: "TIMER CONTROLS", section: "BROADCAST_FLOW", family: "AUTOMATION", protected: false,
+    departments: ["TIMING", "GRAPHICS"], hasTimerControls: true },
 
   // STAGE
   { id: "t-entrance", name: "Player Entrance", section: "STAGE", family: "AUTOMATION", protected: false,
