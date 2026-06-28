@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as EngineeringRouteImport } from './routes/engineering'
+import { Route as AutomationTriggersRouteImport } from './routes/automation-triggers'
 import { Route as IndexRouteImport } from './routes/index'
 
 const EngineeringRoute = EngineeringRouteImport.update({
   id: '/engineering',
   path: '/engineering',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutomationTriggersRoute = AutomationTriggersRouteImport.update({
+  id: '/automation-triggers',
+  path: '/automation-triggers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/engineering'
+  fullPaths: '/' | '/automation-triggers' | '/engineering'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/engineering'
-  id: '__root__' | '/' | '/engineering'
+  to: '/' | '/automation-triggers' | '/engineering'
+  id: '__root__' | '/' | '/automation-triggers' | '/engineering'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutomationTriggersRoute: typeof AutomationTriggersRoute
   EngineeringRoute: typeof EngineeringRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/engineering'
       fullPath: '/engineering'
       preLoaderRoute: typeof EngineeringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/automation-triggers': {
+      id: '/automation-triggers'
+      path: '/automation-triggers'
+      fullPath: '/automation-triggers'
+      preLoaderRoute: typeof AutomationTriggersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutomationTriggersRoute: AutomationTriggersRoute,
   EngineeringRoute: EngineeringRoute,
 }
 export const routeTree = rootRouteImport

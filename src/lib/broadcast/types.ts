@@ -97,6 +97,15 @@ export interface EventFamilyArm {
   armedBy?: string;
 }
 
+export interface CueSources {
+  manual: boolean;
+  timer: boolean;
+  gameApi: boolean;
+  state: boolean;
+}
+
+export type TeamBinding = "A" | "B" | "ANY";
+
 export interface TriggerDefinition {
   id: string;
   name: string;
@@ -106,6 +115,17 @@ export interface TriggerDefinition {
   departments: DepartmentId[];
   lastFiredAt?: number;
   hasTimerControls?: boolean; // renders an inline timer control strip on the cue card
+  // ── Automation / cue contract (optional, defaults applied at read time) ──
+  enabled?: boolean;
+  visible?: boolean;
+  automationArmed?: boolean;
+  sources?: CueSources;
+  linkedTimerId?: string;
+  linkedEventKey?: string;
+  matchPhaseBinding?: MatchPhase | "ANY";
+  teamBinding?: TeamBinding;
+  outputEventKey?: string;
+  setShowState?: string;
 }
 
 export interface OutputRouteStatus {

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { GripVertical, Lock, Pause, Play, RotateCcw, Unlock, Zap } from "lucide-react";
+import { GripVertical, Lock, Pause, Play, RotateCcw, Settings2, Unlock, Zap } from "lucide-react";
 
+import { CueSettingsDialog } from "@/components/broadcast/CueSettingsDialog";
 import { broadcastApi } from "@/lib/broadcast/store";
 import type {
   DepartmentId,
@@ -52,13 +53,20 @@ function fmtSince(ts?: number) {
 }
 
 export function TriggerGrid({
-  triggers,
+  triggers: allTriggers,
   arms,
 }: {
   triggers: TriggerDefinition[];
   arms: EventFamilyArm[];
 }) {
+  // AD Control only renders manually-fireable cues; automation-only cues
+  // (sources.manual === false) live on /automation-triggers.
+  const triggers = useMemo(
+    () => allTriggers.filter((t) => (t.sources?.manual ?? true) !== false),
+    [allTriggers],
+  );
   const armedMap = new Map(arms.map((a) => [a.family, a.armed]));
+  const [editing, setEditing] = useState<TriggerDefinition | null>(null);
 
   const [sectionOrder, setSectionOrder] = useState<TriggerSection[]>(DEFAULT_SECTION_ORDER);
   const [triggerOrder, setTriggerOrder] = useState<Record<TriggerSection, string[]>>(() => {
@@ -164,6 +172,7 @@ export function TriggerGrid({
                     onDragStart={() => onTriggerDragStart(sectionId, t.id)}
                     onDragOver={(e) => onTriggerDragOver(sectionId, t.id, e)}
                     onDragEnd={endDrag}
+                    onEdit={() => setEditing(t)}
                   />
                 ))}
               </div>
@@ -171,6 +180,11 @@ export function TriggerGrid({
           );
         })}
       </div>
+      <CueSettingsDialog
+        trigger={editing}
+        open={!!editing}
+        onOpenChange={(o) => !o && setEditing(null)}
+      />
     </section>
   );
 }
@@ -215,6 +229,7 @@ function TriggerCard({
   onDragStart,
   onDragOver,
   onDragEnd,
+  onEdit,
 }: {
   trigger: TriggerDefinition;
   armed: boolean;
@@ -222,6 +237,7 @@ function TriggerCard({
   onDragStart: () => void;
   onDragOver: (e: React.DragEvent) => void;
   onDragEnd: () => void;
+  onEdit: () => void;
 }) {
   const locked = trigger.protected && !armed;
   const [holding, setHolding] = useState(false);
@@ -287,22 +303,37 @@ function TriggerCard({
       } ${isDragging ? "opacity-40" : ""} ${flash ? "fire-flash" : ""}`}
 
     >
-      {/* drag handle */}
-      <button
-        type="button"
-        draggable
-        onDragStart={(e) => {
-          e.stopPropagation();
-          onDragStart();
-        }}
-        onDragEnd={onDragEnd}
-        onPointerDown={(e) => e.stopPropagation()}
-        title="Drag to reorder"
-        aria-label={`Reorder ${trigger.name}`}
-        className="absolute top-1 right-1 z-10 p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60 cursor-grab active:cursor-grabbing"
-      >
-        <GripVertical className="h-3 w-3" />
-      </button>
+      {/* settings + drag handle */}
+      <div className="absolute top-1 right-1 z-10 flex gap-0.5">
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          title="Cue settings"
+          aria-label={`Settings for ${trigger.name}`}
+          className="p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60"
+        >
+          <Settings2 className="h-3 w-3" />
+        </button>
+        <button
+          type="button"
+          draggable
+          onDragStart={(e) => {
+            e.stopPropagation();
+            onDragStart();
+          }}
+          onDragEnd={onDragEnd}
+          onPointerDown={(e) => e.stopPropagation()}
+          title="Drag to reorder"
+          aria-label={`Reorder ${trigger.name}`}
+          className="p-0.5 rounded-sm text-muted-foreground/50 hover:text-foreground hover:bg-background/60 cursor-grab active:cursor-grabbing"
+        >
+          <GripVertical className="h-3 w-3" />
+        </button>
+      </div>
 
       <button
         type="button"
@@ -321,7 +352,7 @@ function TriggerCard({
           />
         )}
 
-        <div className="flex items-start justify-between gap-1 pr-5">
+        <div className="flex items-start justify-between gap-1 pr-12">
           <span className="text-[13px] font-semibold leading-tight truncate">
             {trigger.name}
           </span>

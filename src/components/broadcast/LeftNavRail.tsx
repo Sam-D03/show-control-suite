@@ -6,10 +6,19 @@ import {
   Radio,
   ScrollText,
   Trophy,
+  Workflow,
   Wrench,
 } from "lucide-react";
 
-type NavId = "ad" | "timing" | "league" | "routing" | "outputs" | "logs" | "engineering";
+type NavId =
+  | "ad"
+  | "automation"
+  | "timing"
+  | "league"
+  | "routing"
+  | "outputs"
+  | "logs"
+  | "engineering";
 
 const items: {
   id: NavId;
@@ -19,6 +28,7 @@ const items: {
   to?: string;
 }[] = [
   { id: "ad", label: "AD Control", icon: Radio, enabled: true, to: "/" },
+  { id: "automation", label: "Automation", icon: Workflow, enabled: true, to: "/automation-triggers" },
   { id: "engineering", label: "Engineering", icon: Wrench, enabled: true, to: "/engineering" },
   { id: "timing", label: "Timing", icon: Clock, enabled: false },
   { id: "league", label: "League Ops", icon: Trophy, enabled: false },

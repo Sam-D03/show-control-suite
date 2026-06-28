@@ -219,6 +219,59 @@ export const broadcastApi = {
     });
   },
 
+  saveTrigger(triggerId: string, patch: Partial<import("./types").TriggerDefinition>) {
+    setState((s) => ({
+      ...s,
+      triggers: s.triggers.map((t) => (t.id === triggerId ? { ...t, ...patch, id: t.id } : t)),
+    }));
+    pushLog({
+      kind: "STATE_CHANGED",
+      message: `Cue '${triggerId}' settings updated`,
+      source: state.operator,
+      severity: "INFO",
+    });
+  },
+
+  createTrigger(partial: Partial<import("./types").TriggerDefinition>): import("./types").TriggerDefinition {
+    const id = partial.id ?? `t-${Math.random().toString(36).slice(2, 9)}`;
+    const next: import("./types").TriggerDefinition = {
+      name: "New Cue",
+      section: "BROADCAST_FLOW",
+      family: "AUTOMATION",
+      protected: false,
+      departments: [],
+      enabled: true,
+      visible: true,
+      automationArmed: true,
+      sources: { manual: false, timer: false, gameApi: true, state: false },
+      ...partial,
+      id,
+    };
+    setState((s) => ({ ...s, triggers: [...s.triggers, next] }));
+    pushLog({
+      kind: "STATE_CHANGED",
+      message: `Cue '${next.name}' created`,
+      source: state.operator,
+      severity: "INFO",
+    });
+    return next;
+  },
+
+  setCueAutomationArm(triggerId: string, armed: boolean) {
+    setState((s) => ({
+      ...s,
+      triggers: s.triggers.map((t) =>
+        t.id === triggerId ? { ...t, automationArmed: armed } : t,
+      ),
+    }));
+    pushLog({
+      kind: armed ? "ARMED" : "DISARMED",
+      message: `Automation cue '${triggerId}' ${armed ? "armed" : "disarmed"}`,
+      source: state.operator,
+      severity: "INFO",
+    });
+  },
+
   // ── Future WebSocket surface (mock) ──
   subscribe(listener: Listener) {
     listeners.add(listener);
