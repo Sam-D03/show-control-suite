@@ -140,14 +140,14 @@
 /* Live-mode pulsing dot */
 @utility pulse-live {
   position: relative;
-}
-@utility pulse-live::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: 0 0 0 0 color-mix(in oklab, var(--status-live) 60%, transparent);
-  animation: pulse-live 1.6s ease-out infinite;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--status-live) 60%, transparent);
+    animation: pulse-live 1.6s ease-out infinite;
+  }
 }
 
 @keyframes pulse-live {
