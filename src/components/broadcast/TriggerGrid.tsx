@@ -229,6 +229,7 @@ function TriggerCard({
   onDragStart,
   onDragOver,
   onDragEnd,
+  onEdit,
 }: {
   trigger: TriggerDefinition;
   armed: boolean;
@@ -236,6 +237,7 @@ function TriggerCard({
   onDragStart: () => void;
   onDragOver: (e: React.DragEvent) => void;
   onDragEnd: () => void;
+  onEdit: () => void;
 }) {
   const locked = trigger.protected && !armed;
   const [holding, setHolding] = useState(false);
