@@ -226,14 +226,27 @@ function TriggerCard({
   const locked = trigger.protected && !armed;
   const [holding, setHolding] = useState(false);
   const [tick, setTick] = useState(0);
+  const [flash, setFlash] = useState(false);
   const holdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const lastFiredRef = useRef<number | undefined>(trigger.lastFiredAt);
 
   // Re-render "last fired" rolling label
   useEffect(() => {
     const id = setInterval(() => setTick((n) => n + 1), 5000);
     return () => clearInterval(id);
   }, []);
+
+  // Visual feedback when this trigger fires
+  useEffect(() => {
+    if (trigger.lastFiredAt && trigger.lastFiredAt !== lastFiredRef.current) {
+      lastFiredRef.current = trigger.lastFiredAt;
+      setFlash(true);
+      const id = setTimeout(() => setFlash(false), 700);
+      return () => clearTimeout(id);
+    }
+  }, [trigger.lastFiredAt]);
+
 
   function fire() {
     broadcastApi.fireTrigger(trigger.id);
