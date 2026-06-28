@@ -4,6 +4,7 @@ import { Minus, Plus, RotateCcw, Wifi } from "lucide-react";
 
 import { useShowState } from "@/lib/broadcast/store";
 import type { TimerState } from "@/lib/broadcast/types";
+import { CurrentMatchPanel } from "@/components/broadcast/CurrentMatchPanel";
 
 export const Route = createFileRoute("/timings")({
   head: () => ({
@@ -301,6 +302,11 @@ function TimingsScreen() {
         )}
         <span className="text-foreground tabular text-base font-bold">{fmtTod(now)}</span>
       </header>
+
+      {/* Current match header */}
+      {state.match && <CurrentMatchPanel match={state.match} />}
+
+
 
       {/* Main area */}
       <main className="flex-1 min-h-0 p-3">
