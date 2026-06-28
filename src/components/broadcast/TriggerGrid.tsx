@@ -53,13 +53,20 @@ function fmtSince(ts?: number) {
 }
 
 export function TriggerGrid({
-  triggers,
+  triggers: allTriggers,
   arms,
 }: {
   triggers: TriggerDefinition[];
   arms: EventFamilyArm[];
 }) {
+  // AD Control only renders manually-fireable cues; automation-only cues
+  // (sources.manual === false) live on /automation-triggers.
+  const triggers = useMemo(
+    () => allTriggers.filter((t) => (t.sources?.manual ?? true) !== false),
+    [allTriggers],
+  );
   const armedMap = new Map(arms.map((a) => [a.family, a.armed]));
+  const [editing, setEditing] = useState<TriggerDefinition | null>(null);
 
   const [sectionOrder, setSectionOrder] = useState<TriggerSection[]>(DEFAULT_SECTION_ORDER);
   const [triggerOrder, setTriggerOrder] = useState<Record<TriggerSection, string[]>>(() => {
