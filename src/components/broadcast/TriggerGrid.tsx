@@ -227,6 +227,7 @@ function TriggerCard({
   const [holding, setHolding] = useState(false);
   const [tick, setTick] = useState(0);
   const [flash, setFlash] = useState(false);
+  const [tcPlaying, setTcPlaying] = useState(false);
   const holdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
   const lastFiredRef = useRef<number | undefined>(trigger.lastFiredAt);
