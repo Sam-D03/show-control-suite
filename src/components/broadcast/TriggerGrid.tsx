@@ -372,6 +372,50 @@ function TriggerCard({
           </span>
         </div>
       </button>
+
+      {trigger.hasTimerControls && (
+        <div
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+          className="absolute left-0 right-0 bottom-0 z-10 px-2 py-1.5 border-t border-panel-edge bg-panel/95 backdrop-blur-sm flex items-center gap-1"
+        >
+          <span className="font-mono tabular text-[13px] text-foreground leading-none mr-1">
+            00:30
+          </span>
+          <button
+            type="button"
+            title="Play"
+            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+          >
+            <Play size={12} />
+          </button>
+          <button
+            type="button"
+            title="Pause"
+            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+          >
+            <Pause size={12} />
+          </button>
+          <button
+            type="button"
+            title="Reset to 0"
+            className="h-5 w-5 rounded-sm bg-panel-elev border border-panel-edge text-foreground hover:bg-background hover:border-accent/60 transition-colors flex items-center justify-center"
+          >
+            <RotateCcw size={12} />
+          </button>
+          <div className="w-px h-3 bg-panel-edge mx-0.5" />
+          {["+20s", "-20s", "+1m", "-1m"].map((label) => (
+            <button
+              key={label}
+              type="button"
+              title={label}
+              className="h-5 px-1.5 rounded-sm bg-panel-elev border border-panel-edge text-[10px] text-muted-foreground hover:bg-background hover:text-foreground hover:border-accent/60 transition-colors tabular"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
