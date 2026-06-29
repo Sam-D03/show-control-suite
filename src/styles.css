@@ -209,6 +209,21 @@
     adjust-float-out 560ms ease-in 1100ms forwards;
 }
 
+@keyframes adjust-ring {
+  0%   { opacity: 0;    transform: translate(-50%, -50%) scale(0.5); }
+  30%  { opacity: 0.7;  }
+  100% { opacity: 0;    transform: translate(-50%, -50%) scale(2.1); }
+}
+
+@utility adjust-ring {
+  animation: adjust-ring 900ms ease-out forwards;
+}
+
+@utility adjust-ring-delayed {
+  animation: adjust-ring 1100ms ease-out 180ms forwards;
+}
+
+
 
 
 
