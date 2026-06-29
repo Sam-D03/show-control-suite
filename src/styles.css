@@ -180,45 +180,35 @@
   animation: fire-flash 700ms ease-out;
 }
 
-/* Timer adjustment overlay — broadcast-graphics style pop + float */
+/* Timer adjustment overlay — broadcast-graphics style pop + float.
+   The chip is anchored ABOVE the timer digits (never on top of them) and
+   floats further upward on exit so the main timer value stays legible. */
 @keyframes adjust-pop-in {
   0% {
     opacity: 0;
-    transform: translate(-50%, -40%) scale(0.78);
-    filter: blur(6px);
+    transform: translate(-50%, -30%) scale(0.84);
   }
-  55% {
+  60% {
     opacity: 1;
-    transform: translate(-50%, -52%) scale(1.06);
-    filter: blur(0);
+    transform: translate(-50%, -54%) scale(1.05);
   }
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-    filter: blur(0);
   }
 }
 
 @keyframes adjust-float-out {
   0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -88%) scale(1.02); }
-}
-
-@keyframes adjust-ring {
-  0%   { opacity: 0.0; transform: translate(-50%, -50%) scale(0.6); }
-  35%  { opacity: 0.55; }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.55); }
+  100% { opacity: 0; transform: translate(-50%, -140%) scale(0.98); }
 }
 
 @utility adjust-overlay-enter {
   animation:
     adjust-pop-in 220ms cubic-bezier(0.2, 0.9, 0.25, 1) both,
-    adjust-float-out 520ms ease-in 1080ms forwards;
+    adjust-float-out 560ms ease-in 1100ms forwards;
 }
 
-@utility adjust-ring {
-  animation: adjust-ring 720ms ease-out forwards;
-}
 
 
 
