@@ -115,22 +115,26 @@ function TimerBlock({
     sm: "text-[5vw] xl:text-[4rem]",
   }[size];
   const labelSize = {
-    xl: "text-[1.4vw] xl:text-2xl",
-    lg: "text-[1.1vw] xl:text-xl",
-    md: "text-[0.95vw] xl:text-base",
-    sm: "text-[0.8vw] xl:text-sm",
+    xl: "text-[2.5vw] xl:text-[3rem]",
+    lg: "text-[1.9vw] xl:text-[2.1rem]",
+    md: "text-[1.4vw] xl:text-[1.5rem]",
+    sm: "text-[1.05vw] xl:text-[1.15rem]",
   }[size];
 
   return (
     <div className="relative h-full w-full bg-panel border border-panel-edge rounded-sm flex flex-col overflow-hidden">
-      <div className="flex items-center justify-between px-4 pt-3 shrink-0">
-        <div
-          className={`uppercase tracking-[0.22em] font-semibold text-muted-foreground truncate ${labelSize}`}
-        >
-          {timer.label}
+      <div className="flex items-start justify-between px-4 pt-3 pb-2 shrink-0 gap-3">
+        <div className="flex flex-col gap-1.5 min-w-0">
+          <div
+            className={`uppercase tracking-[0.18em] font-bold text-foreground truncate ${labelSize}`}
+            style={{ textShadow: "0 0 24px color-mix(in oklab, var(--foreground) 18%, transparent)" }}
+          >
+            {timer.label}
+          </div>
+          <div className="h-1 w-16 xl:w-20 rounded-full bg-accent shadow-[0_0_10px_color-mix(in_oklab,var(--accent)_40%,transparent)]" />
         </div>
         <div
-          className={`px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-[0.2em] font-bold ${badge.cls}`}
+          className={`shrink-0 mt-1 px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-[0.2em] font-bold ${badge.cls}`}
         >
           {badge.label}
         </div>
