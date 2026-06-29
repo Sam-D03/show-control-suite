@@ -168,9 +168,19 @@ function TimerBlock({
           {timer.linkedTriggerId && <span className="text-accent">→ linked cue</span>}
         </div>
       </div>
+
+      {/* Adjustment overlay — design-only; remounts via key to replay anim */}
+      {adjustment && (
+        <TimerAdjustOverlay
+          key={adjustment.id}
+          deltaMs={adjustment.deltaMs}
+          size={size}
+        />
+      )}
     </div>
   );
 }
+
 
 function DelayControl({
   value,
