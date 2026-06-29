@@ -292,6 +292,31 @@ function TimingsScreen() {
     });
   }, [active]);
 
+  // ── Design demo: cycle a +/- adjustment overlay across visible timers so
+  // both visual states are observable on /timings. Codex will replace this
+  // with real adjustment events emitted from the store.
+  const [demoAdjust, setDemoAdjust] = useState<
+    Record<string, { id: number; deltaMs: number }>
+  >({});
+  useEffect(() => {
+    if (active.length === 0) return;
+    let i = 0;
+    const deltas = [20_000, -20_000, 60_000, -60_000];
+    const tick = () => {
+      const timer = active[i % active.length];
+      const delta = deltas[i % deltas.length];
+      setDemoAdjust((prev) => ({
+        ...prev,
+        [timer.id]: { id: Date.now() + i, deltaMs: delta },
+      }));
+      i += 1;
+    };
+    tick();
+    const id = setInterval(tick, 2600);
+    return () => clearInterval(id);
+  }, [active]);
+
+
   const count = sorted.length;
   const matchSummary =
     state.match && `${state.match.teamA.short} vs ${state.match.teamB.short} · ${state.match.currentMap}`;
