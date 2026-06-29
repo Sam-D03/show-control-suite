@@ -69,10 +69,21 @@ export function TimerAdjustOverlay({ deltaMs, size = "lg" }: TimerAdjustOverlayP
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-20 overflow-visible"
       aria-live="polite"
       aria-atomic="true"
     >
+      {/* Expanding ring — anchored to the chip position, draws the eye */}
+      <div
+        className={`absolute left-1/2 ${TOP_OFFSET[size]} h-24 w-24 xl:h-32 xl:w-32 rounded-full border-2 ${tone.border} opacity-0 adjust-ring`}
+        style={{ transform: "translate(-50%, -50%)" }}
+      />
+      <div
+        className={`absolute left-1/2 ${TOP_OFFSET[size]} h-24 w-24 xl:h-32 xl:w-32 rounded-full border ${tone.border} opacity-0 adjust-ring-delayed`}
+        style={{ transform: "translate(-50%, -50%)" }}
+      />
+
+      {/* Delta chip */}
       <div
         className={`absolute left-1/2 ${TOP_OFFSET[size]} adjust-overlay-enter ${PAD[size]} rounded-sm border ${tone.border} ${tone.bg} ${tone.glow} flex items-center gap-3`}
         style={{ transform: "translate(-50%, -50%)" }}
@@ -93,3 +104,4 @@ export function TimerAdjustOverlay({ deltaMs, size = "lg" }: TimerAdjustOverlayP
     </div>
   );
 }
+
