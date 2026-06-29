@@ -5,6 +5,8 @@ import { Minus, Plus, RotateCcw, Wifi } from "lucide-react";
 import { useShowState } from "@/lib/broadcast/store";
 import type { TimerState } from "@/lib/broadcast/types";
 import { CurrentMatchPanel } from "@/components/broadcast/CurrentMatchPanel";
+import { TimerAdjustOverlay } from "@/components/broadcast/TimerAdjustOverlay";
+
 
 export const Route = createFileRoute("/timings")({
   head: () => ({
