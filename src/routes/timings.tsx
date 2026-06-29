@@ -354,25 +354,48 @@ function TimingsScreen() {
           <EmptyState eventName={state.eventName} showDay={state.showDay} now={now} />
         ) : count === 1 ? (
           <div className="h-full w-full">
-            <TimerBlock timer={sorted[0]} delayMs={delayMs} size="xl" />
+            <TimerBlock
+              timer={sorted[0]}
+              delayMs={delayMs}
+              size="xl"
+              adjustment={demoAdjust[sorted[0].id]}
+            />
           </div>
         ) : count === 2 ? (
           <div className="h-full w-full grid grid-cols-2 gap-3">
             {sorted.map((t) => (
-              <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="lg" />
+              <TimerBlock
+                key={t.id}
+                timer={t}
+                delayMs={delayMs}
+                size="lg"
+                adjustment={demoAdjust[t.id]}
+              />
             ))}
           </div>
         ) : count <= 4 ? (
           <div className="h-full w-full grid grid-cols-2 grid-rows-2 gap-3">
             {sorted.map((t) => (
-              <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="md" />
+              <TimerBlock
+                key={t.id}
+                timer={t}
+                delayMs={delayMs}
+                size="md"
+                adjustment={demoAdjust[t.id]}
+              />
             ))}
           </div>
         ) : (
           <div className="h-full w-full grid grid-rows-[2fr_1fr] gap-3">
             <div className="grid grid-cols-2 gap-3 min-h-0">
               {sorted.slice(0, 2).map((t) => (
-                <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="lg" />
+                <TimerBlock
+                  key={t.id}
+                  timer={t}
+                  delayMs={delayMs}
+                  size="lg"
+                  adjustment={demoAdjust[t.id]}
+                />
               ))}
             </div>
             <div
@@ -382,7 +405,14 @@ function TimingsScreen() {
               }}
             >
               {sorted.slice(2).map((t) => (
-                <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="sm" />
+                <TimerBlock
+                  key={t.id}
+                  timer={t}
+                  delayMs={delayMs}
+                  size="sm"
+                  adjustment={demoAdjust[t.id]}
+                />
+
               ))}
             </div>
           </div>
