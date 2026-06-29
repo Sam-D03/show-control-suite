@@ -94,11 +94,14 @@ function TimerBlock({
   timer,
   delayMs,
   size,
+  adjustment,
 }: {
   timer: TimerState;
   delayMs: number;
   size: "xl" | "lg" | "md" | "sm";
+  adjustment?: { id: number; deltaMs: number } | null;
 }) {
+
   const displayMs = Math.max(0, timer.remainingMs + delayMs);
   const u = urgencyOf(timer, displayMs);
   const pct =
