@@ -5,6 +5,8 @@ import { Minus, Plus, RotateCcw, Wifi } from "lucide-react";
 import { useShowState } from "@/lib/broadcast/store";
 import type { TimerState } from "@/lib/broadcast/types";
 import { CurrentMatchPanel } from "@/components/broadcast/CurrentMatchPanel";
+import { TimerAdjustOverlay } from "@/components/broadcast/TimerAdjustOverlay";
+
 
 export const Route = createFileRoute("/timings")({
   head: () => ({
@@ -92,11 +94,14 @@ function TimerBlock({
   timer,
   delayMs,
   size,
+  adjustment,
 }: {
   timer: TimerState;
   delayMs: number;
   size: "xl" | "lg" | "md" | "sm";
+  adjustment?: { id: number; deltaMs: number } | null;
 }) {
+
   const displayMs = Math.max(0, timer.remainingMs + delayMs);
   const u = urgencyOf(timer, displayMs);
   const pct =
@@ -163,9 +168,19 @@ function TimerBlock({
           {timer.linkedTriggerId && <span className="text-accent">→ linked cue</span>}
         </div>
       </div>
+
+      {/* Adjustment overlay — design-only; remounts via key to replay anim */}
+      {adjustment && (
+        <TimerAdjustOverlay
+          key={adjustment.id}
+          deltaMs={adjustment.deltaMs}
+          size={size}
+        />
+      )}
     </div>
   );
 }
+
 
 function DelayControl({
   value,
@@ -277,6 +292,31 @@ function TimingsScreen() {
     });
   }, [active]);
 
+  // ── Design demo: cycle a +/- adjustment overlay across visible timers so
+  // both visual states are observable on /timings. Codex will replace this
+  // with real adjustment events emitted from the store.
+  const [demoAdjust, setDemoAdjust] = useState<
+    Record<string, { id: number; deltaMs: number }>
+  >({});
+  useEffect(() => {
+    if (active.length === 0) return;
+    let i = 0;
+    const deltas = [20_000, -20_000, 60_000, -60_000];
+    const tick = () => {
+      const timer = active[i % active.length];
+      const delta = deltas[i % deltas.length];
+      setDemoAdjust((prev) => ({
+        ...prev,
+        [timer.id]: { id: Date.now() + i, deltaMs: delta },
+      }));
+      i += 1;
+    };
+    tick();
+    const id = setInterval(tick, 2600);
+    return () => clearInterval(id);
+  }, [active]);
+
+
   const count = sorted.length;
   const matchSummary =
     state.match && `${state.match.teamA.short} vs ${state.match.teamB.short} · ${state.match.currentMap}`;
@@ -314,25 +354,48 @@ function TimingsScreen() {
           <EmptyState eventName={state.eventName} showDay={state.showDay} now={now} />
         ) : count === 1 ? (
           <div className="h-full w-full">
-            <TimerBlock timer={sorted[0]} delayMs={delayMs} size="xl" />
+            <TimerBlock
+              timer={sorted[0]}
+              delayMs={delayMs}
+              size="xl"
+              adjustment={demoAdjust[sorted[0].id]}
+            />
           </div>
         ) : count === 2 ? (
           <div className="h-full w-full grid grid-cols-2 gap-3">
             {sorted.map((t) => (
-              <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="lg" />
+              <TimerBlock
+                key={t.id}
+                timer={t}
+                delayMs={delayMs}
+                size="lg"
+                adjustment={demoAdjust[t.id]}
+              />
             ))}
           </div>
         ) : count <= 4 ? (
           <div className="h-full w-full grid grid-cols-2 grid-rows-2 gap-3">
             {sorted.map((t) => (
-              <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="md" />
+              <TimerBlock
+                key={t.id}
+                timer={t}
+                delayMs={delayMs}
+                size="md"
+                adjustment={demoAdjust[t.id]}
+              />
             ))}
           </div>
         ) : (
           <div className="h-full w-full grid grid-rows-[2fr_1fr] gap-3">
             <div className="grid grid-cols-2 gap-3 min-h-0">
               {sorted.slice(0, 2).map((t) => (
-                <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="lg" />
+                <TimerBlock
+                  key={t.id}
+                  timer={t}
+                  delayMs={delayMs}
+                  size="lg"
+                  adjustment={demoAdjust[t.id]}
+                />
               ))}
             </div>
             <div
@@ -342,7 +405,14 @@ function TimingsScreen() {
               }}
             >
               {sorted.slice(2).map((t) => (
-                <TimerBlock key={t.id} timer={t} delayMs={delayMs} size="sm" />
+                <TimerBlock
+                  key={t.id}
+                  timer={t}
+                  delayMs={delayMs}
+                  size="sm"
+                  adjustment={demoAdjust[t.id]}
+                />
+
               ))}
             </div>
           </div>
