@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { ArmStrip } from "@/components/broadcast/ArmStrip";
 import { AutomationInbox } from "@/components/broadcast/AutomationInbox";
+import { CueHistoryFooter } from "@/components/broadcast/CueHistoryFooter";
 import { CurrentMatchPanel } from "@/components/broadcast/CurrentMatchPanel";
 import { LeftNavRail } from "@/components/broadcast/LeftNavRail";
 import { TimerMiniPanel } from "@/components/broadcast/TimerMiniPanel";
@@ -60,6 +61,8 @@ function AdControlScreen() {
               </div>
             </aside>
           </div>
+
+          <CueHistoryFooter liveActive={state.mode === "LIVE"} />
         </main>
       </div>
     </div>
