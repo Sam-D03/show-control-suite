@@ -12,7 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimingsRouteImport } from './routes/timings'
 import { Route as EngineeringRouteImport } from './routes/engineering'
 import { Route as AutomationTriggersRouteImport } from './routes/automation-triggers'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminTeamRouteImport } from './routes/admin.team'
+import { Route as AdminMembersRouteImport } from './routes/admin.members'
+import { Route as AdminLeaseRouteImport } from './routes/admin.lease'
+import { Route as AdminLanRouteImport } from './routes/admin.lan'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminBridgesRouteImport } from './routes/admin.bridges'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
 
 const TimingsRoute = TimingsRouteImport.update({
   id: '/timings',
@@ -29,41 +38,152 @@ const AutomationTriggersRoute = AutomationTriggersRouteImport.update({
   path: '/automation-triggers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMembersRoute = AdminMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeaseRoute = AdminLeaseRouteImport.update({
+  id: '/lease',
+  path: '/lease',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLanRoute = AdminLanRouteImport.update({
+  id: '/lan',
+  path: '/lan',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBridgesRoute = AdminBridgesRouteImport.update({
+  id: '/bridges',
+  path: '/bridges',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
   '/timings': typeof TimingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/bridges': typeof AdminBridgesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/lan': typeof AdminLanRoute
+  '/admin/lease': typeof AdminLeaseRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
   '/timings': typeof TimingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/bridges': typeof AdminBridgesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/lan': typeof AdminLanRoute
+  '/admin/lease': typeof AdminLeaseRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/automation-triggers': typeof AutomationTriggersRoute
   '/engineering': typeof EngineeringRoute
   '/timings': typeof TimingsRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/bridges': typeof AdminBridgesRoute
+  '/admin/events': typeof AdminEventsRoute
+  '/admin/lan': typeof AdminLanRoute
+  '/admin/lease': typeof AdminLeaseRoute
+  '/admin/members': typeof AdminMembersRoute
+  '/admin/team': typeof AdminTeamRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/automation-triggers' | '/engineering' | '/timings'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/automation-triggers'
+    | '/engineering'
+    | '/timings'
+    | '/admin/audit'
+    | '/admin/bridges'
+    | '/admin/events'
+    | '/admin/lan'
+    | '/admin/lease'
+    | '/admin/members'
+    | '/admin/team'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/automation-triggers' | '/engineering' | '/timings'
-  id: '__root__' | '/' | '/automation-triggers' | '/engineering' | '/timings'
+  to:
+    | '/'
+    | '/automation-triggers'
+    | '/engineering'
+    | '/timings'
+    | '/admin/audit'
+    | '/admin/bridges'
+    | '/admin/events'
+    | '/admin/lan'
+    | '/admin/lease'
+    | '/admin/members'
+    | '/admin/team'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/automation-triggers'
+    | '/engineering'
+    | '/timings'
+    | '/admin/audit'
+    | '/admin/bridges'
+    | '/admin/events'
+    | '/admin/lan'
+    | '/admin/lease'
+    | '/admin/members'
+    | '/admin/team'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AutomationTriggersRoute: typeof AutomationTriggersRoute
   EngineeringRoute: typeof EngineeringRoute
   TimingsRoute: typeof TimingsRoute
@@ -92,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AutomationTriggersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -99,11 +226,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/members': {
+      id: '/admin/members'
+      path: '/members'
+      fullPath: '/admin/members'
+      preLoaderRoute: typeof AdminMembersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/lease': {
+      id: '/admin/lease'
+      path: '/lease'
+      fullPath: '/admin/lease'
+      preLoaderRoute: typeof AdminLeaseRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/lan': {
+      id: '/admin/lan'
+      path: '/lan'
+      fullPath: '/admin/lan'
+      preLoaderRoute: typeof AdminLanRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/bridges': {
+      id: '/admin/bridges'
+      path: '/bridges'
+      fullPath: '/admin/bridges'
+      preLoaderRoute: typeof AdminBridgesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminBridgesRoute: typeof AdminBridgesRoute
+  AdminEventsRoute: typeof AdminEventsRoute
+  AdminLanRoute: typeof AdminLanRoute
+  AdminLeaseRoute: typeof AdminLeaseRoute
+  AdminMembersRoute: typeof AdminMembersRoute
+  AdminTeamRoute: typeof AdminTeamRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAuditRoute: AdminAuditRoute,
+  AdminBridgesRoute: AdminBridgesRoute,
+  AdminEventsRoute: AdminEventsRoute,
+  AdminLanRoute: AdminLanRoute,
+  AdminLeaseRoute: AdminLeaseRoute,
+  AdminMembersRoute: AdminMembersRoute,
+  AdminTeamRoute: AdminTeamRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AutomationTriggersRoute: AutomationTriggersRoute,
   EngineeringRoute: EngineeringRoute,
   TimingsRoute: TimingsRoute,
